@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>Alif Dewan | Digital Identity</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--card:#121e31;--line:#263750;--muted:#a9b7ca;--accent:#7dd3fc}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 20% 0%,#17304b 0,transparent 38%),var(--bg);color:#f5f8fc;font:16px/1.55 system-ui,Arial,sans-serif;display:grid;place-items:center;padding:24px}
+main{width:min(100%,520px)}.card{background:linear-gradient(160deg,#17263b,#101a2b);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 20px 60px #0006}
+.top{text-align:center}.avatar{width:92px;height:92px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;background:#20364d;border:1px solid #45617d;color:var(--accent);font-size:38px;font-weight:700}
+.kicker{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.name{font-size:30px;line-height:1.2;margin:8px 0}.sub{color:var(--muted);margin:0}.pill{display:inline-block;margin-top:14px;padding:5px 12px;border:1px solid #285b4c;border-radius:99px;color:#9be7c2;font-size:12px}
+hr{border:0;border-top:1px solid var(--line);margin:24px 0}.row{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid #263750}.row:last-child{border:0}.label{color:var(--muted)}.value{text-align:right;font-weight:600}
+.note{font-size:12px;color:var(--muted);margin-top:22px}.qrbox{margin-top:20px;padding:18px;background:#0d1726;border:1px solid var(--line);border-radius:16px;text-align:center}
+input{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#0b1220;color:white;margin:8px 0}
+button{border:0;border-radius:10px;background:var(--accent);color:#082033;font-weight:700;padding:11px 16px;cursor:pointer}
+#qrcode{background:white;padding:10px;width:max-content;margin:14px auto 0;border-radius:8px;min-height:20px}
+.small{font-size:12px;color:var(--muted)}footer{text-align:center;color:#8090a5;font-size:12px;margin-top:16px}
+</style>
+</head>
+<body>
+<main>
+<section class="card">
+  <div class="top">
+    <div class="avatar" aria-hidden="true">AD</div>
+    <div class="kicker">PERSONAL DIGITAL IDENTITY</div>
+    <h1 class="name">Alif Dewan</h1>
+    <p class="sub">Personal Digital Identity</p>
+    <span class="pill">Personal profile · Public</span>
+  </div>
+  <hr>
+  <div class="row"><span class="label">Full name</span><span class="value">Alif Dewan</span></div>
+  <div class="row"><span class="label">District</span><span class="value">Dhaka, Bangladesh</span></div>
+  <div class="row"><span class="label">Profile type</span><span class="value">Personal</span></div>
+  <p class="note">This is a self-created personal profile, not a government-issued identity document and not proof of legal identity.</p>
+  <div class="qrbox">
+    <strong>Generate your profile QR code</strong>
+    <p class="small">After publishing this website, paste its public link below to create a QR code that opens this profile.</p>
+    <input id="siteUrl" type="url" placeholder="https://your-published-site.example" aria-label="Published website URL">
+    <button id="makeQr" type="button">Create QR code</button>
+    <div id="qrcode" aria-live="polite"></div>
+    <p class="small">The QR code is generated only after you enter your published website address.</p>
+  </div>
+</section>
+<footer>Share only information you are comfortable making public.</footer>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+document.getElementById('makeQr').addEventListener('click',()=>{
+ const raw=document.getElementById('siteUrl').value.trim();
+ const out=document.getElementById('qrcode'); out.innerHTML='';
+ let u; try{u=new URL(raw)}catch(e){out.textContent='Please enter a valid published website URL.';return}
+ if(u.protocol!=='https:' && u.protocol!=='http:'){out.textContent='Please use an http or https website link.';return}
+ if(typeof QRCode==='undefined'){out.textContent='QR library could not load. Connect to the internet and refresh.';return}
+ new QRCode(out,{text:u.href,width:180,height:180,correctLevel:QRCode.CorrectLevel.M});
+});
+</script>
+</body>
+</html>
